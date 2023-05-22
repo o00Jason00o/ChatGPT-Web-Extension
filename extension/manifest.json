@@ -1,20 +1,18 @@
 {
     "background": {
-        "scripts": ["script.js"]
+        "service_worker": "background.js"
     },
-    "page_action": {
+    "action": {
         "default_popup": "popup.html",
-        "default_icon": "hello_extensions.png"
+        "default_icon": "ChatGPT_logo.png"
     },
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
+    "name": "Ask ChatGPT",
+    "description": "Select a text an right click to ask for ChatGPT response",
     "version": "1.0",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "permissions": [
-        "<all_urls>",
         "storage",
         "activeTab",
-        "contextMenus",
-        "webRequest"
+        "contextMenus"
     ]
   }
