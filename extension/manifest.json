@@ -1,0 +1,20 @@
+{
+    "background": {
+        "scripts": ["script.js"]
+    },
+    "page_action": {
+        "default_popup": "popup.html",
+        "default_icon": "hello_extensions.png"
+    },
+    "name": "Hello Extensions",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "manifest_version": 2,
+    "permissions": [
+        "<all_urls>",
+        "storage",
+        "activeTab",
+        "contextMenus",
+        "webRequest"
+    ]
+  }
