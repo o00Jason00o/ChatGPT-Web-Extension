@@ -5,7 +5,7 @@ window.onload = function() {
     btn.addEventListener("click", () => {
 
         chrome.tabs.create({  
-            url: "http://www.google.com/"
+            url: "http://www.google.com/" //replace with login page URL
         });
     })
 }
