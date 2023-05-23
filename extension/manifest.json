@@ -11,8 +11,10 @@
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
+        "tabs",
         "storage",
         "activeTab",
-        "contextMenus"
+        "contextMenus",
+        "scripting"
     ]
   }
