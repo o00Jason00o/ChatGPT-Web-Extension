@@ -2,6 +2,7 @@
   "dependencies": {
     "fs": "^0.0.1-security",
     "node": "^20.2.0",
+    "openai": "^3.2.1",
     "require": "^0.4.4"
   }
 }
