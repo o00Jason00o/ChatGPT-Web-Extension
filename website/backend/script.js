@@ -13,9 +13,8 @@ app.get('/', () => {
 });
 
 // adding user to cred.JSON
-app.post('/:id/', jsonParser, (req, res) => {
-    var id = req.params.id;
-    var data = req.body;
+app.post('/id/', jsonParser, (req, res) => {
+    const data = req.body;
     res.send("YEAH!");
 
     // initalize if JSON is empty
@@ -56,9 +55,9 @@ app.post('/:id/', jsonParser, (req, res) => {
     }
 });
 
-app.get('/:id/:inst', (req, res) => {
-    var id = req.params.id;
-    var inst = req.params.inst;
+app.post('/id/:inst', jsonParser, (req, res) => {
+    const id = req.body;
+    const inst = req.params.inst;
     res.send("YEAH!!");
 
     try {
@@ -75,6 +74,14 @@ app.get('/:id/:inst', (req, res) => {
         console.log(error);
         throw error;
     }
+});
+
+app.post('/login', jsonParser, (req, res) => {
+    
+});
+
+app.post('/:id/getResponse', jsonParser, (req, res) => {
+
 });
 
 app.listen(3000, () => {

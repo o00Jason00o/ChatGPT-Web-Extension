@@ -16,7 +16,7 @@ function handleCredentialResponse(response) {
     console.log(jsondata);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `http://localhost:3000/${responsePayload["sub"]}`);
+    xhr.open("POST", `http://localhost:3000/id`);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(jsondata); // sends the request
     xhr.onload = () => {
@@ -45,9 +45,13 @@ window.onload = function() {
         } else {
             // pass inst value to backend
             const user_id = document.getElementById('user_id').innerHTML
+            const id_json = {
+                "ID" : user_id
+            };
             xhr = new XMLHttpRequest();
-            xhr.open("GET", `http://localhost:3000/${user_id}/${mode.value}`);
-            xhr.send(); // sends the request
+            xhr.open("POST", `http://localhost:3000/id/${mode.value}`);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(id_json)); // sends the request
 
             xhr.onload = () => {
                 console.log(xhr.responseText);
