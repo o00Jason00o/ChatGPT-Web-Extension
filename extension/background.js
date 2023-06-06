@@ -4,17 +4,38 @@ let prompt_text = ""
 
 async function injectTextbox(API_KEY, text) {
   let response = await getResponse(API_KEY, text);
-  //response = user_key + " " + prompt_text;
-  
-  // We'll be passing response as an argument
   let injectionFunction = function(response) {
+      // Create a wrapper div
+      let wrapper = document.createElement("div");
+      wrapper.style.position = "fixed";
+      wrapper.style.zIndex = 10000;
+      wrapper.style.left = "20px";
+      wrapper.style.top = "20px";
+      wrapper.style.border = "1px solid black";
+      wrapper.style.backgroundColor = "white";
+
+      // Create the close button
+      let closeButton = document.createElement("button");
+      closeButton.textContent = "X";
+      closeButton.style.position = "absolute";
+      closeButton.style.right = "0";
+      closeButton.style.top = "0";
+      closeButton.addEventListener("click", function() {
+          document.body.removeChild(wrapper);
+      });
+
+      // Create the textbox
       let textbox = document.createElement("textarea");
-      textbox.style.position = "fixed";
-      textbox.style.zIndex = 10000;
-      textbox.style.left = "20px";
-      textbox.style.top = "20px";
+      textbox.style.width = "400px"; // Adjust width as needed
+      textbox.style.height = `${(response.split('\n').length + 1) * 3.5}em`; // adjust height based on number of lines
       textbox.value = response;
-      document.body.appendChild(textbox);
+
+      // Append the textbox and the close button to the wrapper
+      wrapper.appendChild(closeButton);
+      wrapper.appendChild(textbox);
+
+      // Append the wrapper to the body
+      document.body.appendChild(wrapper);
   };
 
   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
@@ -25,6 +46,7 @@ async function injectTextbox(API_KEY, text) {
       });
   });
 }
+
 
 
 
