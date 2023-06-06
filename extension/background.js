@@ -121,13 +121,17 @@ async function getResponse(API_KEY, text) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'input_data') {
       console.log('Received input data:', request.user_api, request.user_prompt);
+      
+      // Update the variables with the received data
+      if(request.user_api) {
+          user_key = request.user_api
+          console.log('Input 1 is', user_key);
+      }
+      if(request.user_prompt) {
+          prompt_text = request.user_prompt
+          console.log('Input 2 is', prompt_text);
+      }
+      
       sendResponse({message: 'Input data was received.'});
   }
-});
-
-chrome.storage.sync.get(['user_api', 'user_prompt'], (result) => {
-  user_key = result.user_api
-  prompt_text = result.user_prompt
-  console.log('Input 1 is', result.user_api);
-  console.log('Input 2 is', result.user_prompt);
 });
