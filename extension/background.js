@@ -4,6 +4,7 @@ let prompt_text = ""
 
 async function injectTextbox(API_KEY, text) {
   let response = await getResponse(API_KEY, text);
+  //response = user_key + " " + prompt_text;
   
   // We'll be passing response as an argument
   let injectionFunction = function(response) {
@@ -30,7 +31,7 @@ async function injectTextbox(API_KEY, text) {
 
 function getword(info, tab) {
   console.log("Word " + info.selectionText + " was clicked.");
-  injectTextbox(user_key, prompt_text + ":" + info.selectionText);
+  injectTextbox(user_key, prompt_text + ": " + info.selectionText);
 }
 
 chrome.contextMenus.create({
@@ -97,14 +98,14 @@ async function getResponse(API_KEY, text) {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'input_data') {
-      console.log('Received input data:', request.input1, request.input2);
+      console.log('Received input data:', request.user_api, request.user_prompt);
       sendResponse({message: 'Input data was received.'});
   }
 });
 
-chrome.storage.sync.get(['input1', 'input2'], (result) => {
-  user_key = result.input1
-  prompt_text = result.input2
-  console.log('Input 1 is', result.input1);
-  console.log('Input 2 is', result.input2);
+chrome.storage.sync.get(['user_api', 'user_prompt'], (result) => {
+  user_key = result.user_api
+  prompt_text = result.user_prompt
+  console.log('Input 1 is', result.user_api);
+  console.log('Input 2 is', result.user_prompt);
 });
