@@ -1,7 +1,8 @@
 //const API_KEY = process.env.OPENAI_API_KEY; //TO BE MODIFIED LATER TO USER-BASED
+let user_key = ""
+let prompt_text = ""
 
 async function injectTextbox(API_KEY, text) {
-  //let response = await getResponse(API_KEY, text);
   let response = await getResponse(API_KEY, text);
   
   // We'll be passing response as an argument
@@ -29,7 +30,7 @@ async function injectTextbox(API_KEY, text) {
 
 function getword(info, tab) {
   console.log("Word " + info.selectionText + " was clicked.");
-  injectTextbox("API_KEY", info.selectionText);
+  injectTextbox(user_key, prompt_text + ":" + info.selectionText);
 }
 
 chrome.contextMenus.create({
@@ -91,3 +92,19 @@ async function getResponse(API_KEY, text) {
   
 }
 
+
+//-----------------------Event Listeners-----------------------------------------------------------------
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.message === 'input_data') {
+      console.log('Received input data:', request.input1, request.input2);
+      sendResponse({message: 'Input data was received.'});
+  }
+});
+
+chrome.storage.sync.get(['input1', 'input2'], (result) => {
+  user_key = result.input1
+  prompt_text = result.input2
+  console.log('Input 1 is', result.input1);
+  console.log('Input 2 is', result.input2);
+});
