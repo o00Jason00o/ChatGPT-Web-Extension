@@ -30,6 +30,18 @@ document.getElementById('submit-button').addEventListener('click', () => {
     }
 });
 
+document.getElementById('quick_ask_button').addEventListener('click', () => {
+    let quick_ask = document.getElementById('quick_ask').value;
+
+    // Check if quick_ask is not empty
+    if(quick_ask.trim() !== "") {
+        // Send the quick_ask data to the background script
+        chrome.runtime.sendMessage({message: 'quick_ask', quick_ask: quick_ask}, (response) => {
+            console.log(response.message);
+        });
+    }
+});
+
 // On popup load, display the stored inputs
 window.addEventListener('DOMContentLoaded', (event) => {
     chrome.storage.sync.get(['user_api', 'user_prompt'], (result) => {
@@ -37,3 +49,5 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('user_prompt_display').textContent = `Instruction Prompt: ${result.user_prompt ? result.user_prompt : 'None'}`;
     });
 });
+
+

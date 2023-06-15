@@ -27,7 +27,7 @@ async function updateInputs() {
   });
 }
 
-async function injectTextbox(API_KEY, text, retryCount = 0) {
+async function injectTextbox(API_KEY, text, isQuickAsk = false, retryCount = 0) {
   let response = await getResponse(API_KEY, text);
   if (response === undefined) {
     // Retry if the maximum number of attempts has not been reached
@@ -37,7 +37,9 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
       // Update the inputs before retrying
       await updateInputs();
 
-      injectTextbox(user_key, prompt_text + ": " + text, retryCount + 1);
+      // Check if it's a quick ask. If it is, don't append the prompt_text
+      let retryText = isQuickAsk ? text : prompt_text + ": " + text;
+      injectTextbox(user_key, retryText, isQuickAsk, retryCount + 1);
     } else {
       console.error(`Failed to get a response after ${MAX_RETRIES} attempts.`);
     }
@@ -52,11 +54,49 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
     wrapper.style.left = "20px";
     wrapper.style.top = "20px";
     wrapper.style.border = "1px solid #ddd";
-    wrapper.style.backgroundColor = "#fff";
+    wrapper.style.backgroundColor = "#a9d4c6";
     wrapper.style.boxShadow = "0px 0px 15px rgba(0, 0, 0, 0.1)";
     wrapper.style.borderRadius = "10px";
-    wrapper.style.padding = "20px";
+    wrapper.style.paddingBottom = "20px";
+    wrapper.style.paddingLeft = "20px";
+    wrapper.style.paddingRight = "20px";
     wrapper.style.fontFamily = "'Arial', sans-serif";
+
+    // Create a drag handle
+    let dragHandle = document.createElement("div");
+    dragHandle.style.height = "20px"; // Equal to the padding of the wrapper
+    dragHandle.style.cursor = "move"; // Change cursor to move on hover
+    wrapper.appendChild(dragHandle); // Append the drag handle to the wrapper
+
+    // Add mouse event listeners to the drag handle to make it movable
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    dragHandle.onmousedown = function(e) {
+      e = e || window.event;
+      // Get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // Call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    };
+
+    function elementDrag(e) {
+      e = e || window.event;
+      // Calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // Set the element's new position:
+      wrapper.style.top = (wrapper.offsetTop - pos2) + "px";
+      wrapper.style.left = (wrapper.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+      // Stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
 
     // Create the close button
     let closeButton = document.createElement("button");
@@ -68,7 +108,6 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
       document.body.removeChild(wrapper);
     });
 
-    // Create the textbox
     // Constants for height calculation
     const charactersPerLine = 35; // This value should be adjusted based on your textarea's width
     const lineHeight = 1.5; // Adjust as needed based on your CSS
@@ -76,6 +115,7 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
     // Calculate the number of lines
     let numLines = Math.ceil(response.length / charactersPerLine);
 
+    // Create the textbox
     let textbox = document.createElement("textarea");
     textbox.style.width = "400px"; // Adjust width as needed
     textbox.style.height = `${numLines * lineHeight}em`; // Adjust height based on number of lines
@@ -192,6 +232,22 @@ chrome.contextMenus.onClicked.addListener(getword);
 //-----------------------Event Listeners-----------------------------------------------------------------//
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.message === 'quick_ask') {
+    console.log('Received Quick Ask:', request.quick_ask);
+
+    // Get the active tab
+    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+      currentTabId = tabs[0].id;  // Store the current tab id
+
+      // Inject the textbox for the quick_ask
+      injectTextbox(user_key, request.quick_ask, true);
+      
+      sendResponse({message: 'Quick Ask was received.'});
+    });
+
+    return true;  // Return true to indicate that you're going to send a response asynchronously
+  }
+
   if (request.message === "input_data") {
     console.log("Received input data:", request.user_api, request.user_prompt);
 
