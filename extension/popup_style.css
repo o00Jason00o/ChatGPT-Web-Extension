@@ -1,8 +1,47 @@
 body {
     background: #9ad0bf;
-    padding: 0.8em
+    padding: 0.8em;
+    font-family: Arial, sans-serif;
+    width: 35em;
 }
 
-button{
-    width: 15em;
+input {
+    display: block;
+    width: 96%;
+    padding: 0.5em;
+    margin-bottom: 0.8em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #555;
+}
+
+#stored-inputs {
+    margin-top: 1em;
+    background: #fff;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+#stored-inputs h2 {
+    margin-bottom: 0.5em;
+}
+
+#stored-inputs p {
+    margin: 0.5em 0;
+    font-weight: bold;
 }

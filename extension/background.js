@@ -5,7 +5,6 @@ let currentTabID;
 const MAX_RETRIES = 3;
 
 // Function to update user_key and prompt_text
-// Function to update user_key and prompt_text
 async function updateInputs() {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(['user_api', 'user_prompt'], function(result) { // use sync here
@@ -49,11 +48,15 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
     // Create a wrapper div
     let wrapper = document.createElement("div");
     wrapper.style.position = "fixed";
-    wrapper.style.zIndex = 10000;
+    wrapper.style.zIndex = "10000";
     wrapper.style.left = "20px";
     wrapper.style.top = "20px";
-    wrapper.style.border = "1px solid black";
-    wrapper.style.backgroundColor = "white";
+    wrapper.style.border = "1px solid #ddd";
+    wrapper.style.backgroundColor = "#fff";
+    wrapper.style.boxShadow = "0px 0px 15px rgba(0, 0, 0, 0.1)";
+    wrapper.style.borderRadius = "10px";
+    wrapper.style.padding = "20px";
+    wrapper.style.fontFamily = "'Arial', sans-serif";
 
     // Create the close button
     let closeButton = document.createElement("button");
