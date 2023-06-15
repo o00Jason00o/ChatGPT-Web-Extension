@@ -69,12 +69,18 @@ async function injectTextbox(API_KEY, text, retryCount = 0) {
     });
 
     // Create the textbox
+    // Constants for height calculation
+    const charactersPerLine = 35; // This value should be adjusted based on your textarea's width
+    const lineHeight = 1.5; // Adjust as needed based on your CSS
+
+    // Calculate the number of lines
+    let numLines = Math.ceil(response.length / charactersPerLine);
+
     let textbox = document.createElement("textarea");
     textbox.style.width = "400px"; // Adjust width as needed
-    textbox.style.height = `${
-      response.split("\n").length + 1
-    }em`; // adjust height based on number of lines
+    textbox.style.height = `${numLines * lineHeight}em`; // Adjust height based on number of lines
     textbox.value = response;
+
 
     // Append the textbox and the close button to the wrapper
     wrapper.appendChild(closeButton);
