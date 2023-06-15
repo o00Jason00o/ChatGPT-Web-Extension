@@ -1,9 +1,10 @@
 # ChatGPT-Web-Extension
-- A ChatGPT extension that works on a variety of browsers like Google Chrome and Edge. 
-- Use your own API key to access ChatGPT 3.5 and ask it anything. 
-- Setting up instruction prompts for ChatGPT, for example, “Summarize this”, “Answer this question”, and “translate this to Spanish”.
-- Remembers  your instruction and API key
-- Works with just local files.
+- An adaptable ChatGPT extension compatible with any browser that supports chrome extension
+- Facilitates users to highlight text across webpages, triggering a tailored ChatGPT response.
+- Incorporates user-friendly prompts to guide ChatGPT responses such as "Summarize this", "Respond to this query", or "Translate this into Spanish".
+- Efficiently retains your personalized instructions and API key
+- Functions optimally even with standalone local files.
+- “Quick Ask” feature allowing you to efficiently ask for a ChatGPT response without selecting any text.
 
 # How to use
 1. Download extension folder
