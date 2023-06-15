@@ -5,16 +5,26 @@ let currentTabID;
 const MAX_RETRIES = 3;
 
 // Function to update user_key and prompt_text
+// Function to update user_key and prompt_text
 async function updateInputs() {
-  chrome.storage.local.get(['user_api', 'user_prompt'], function(result) {
-    if (result.user_api) {
-      user_key = result.user_api;
-      console.log("Updated API Key is", user_key);
-    }
-    if (result.user_prompt) {
-      prompt_text = result.user_prompt;
-      console.log("Updated Prompt is", prompt_text);
-    }
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['user_api', 'user_prompt'], function(result) { // use sync here
+      if (chrome.runtime.lastError) {
+        // If there is an error, reject the promise
+        reject(chrome.runtime.lastError);
+      } else {
+        if (result.user_api) {
+          user_key = result.user_api;
+          console.log("Updated API Key is", user_key);
+        }
+        if (result.user_prompt) {
+          prompt_text = result.user_prompt;
+          console.log("Updated Prompt is", prompt_text);
+        }
+        // If successful, resolve the promise
+        resolve();
+      }
+    });
   });
 }
 
