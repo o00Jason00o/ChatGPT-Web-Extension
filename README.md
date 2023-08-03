@@ -8,6 +8,7 @@ A Chromium extension that integrates the power of ChatGPT into your browser. Eas
 
 - **Dynamic Prompts:** Users can enter custom prompts like "translate this" or "summarize this".
 - **Seamless Integration:** Just select, right-click, and get the ChatGPT response.
+- **Quick Ask:** Directly enter questions like "What does UFO stand for?" to get instant ChatGPT responses, bypassing the need for custom prompts.
 - **Custom API Key Input:** Users can enter their own API key for personalized and extended usage.
 
 ## **Installation:**
@@ -28,6 +29,11 @@ A Chromium extension that integrates the power of ChatGPT into your browser. Eas
    a. Highlight the text you want to process on any webpage.  
    b. Right-click and select the ChatGPT Web Extension from the context menu.  
    c. Wait for a few seconds, and the ChatGPT response will appear on the screen.
+
+3. **Quick Ask:**  
+   a. Click on the extension icon.  
+   b. Use the "Quick Ask" input box to type in your question.  
+   c. Press "Ask" and the ChatGPT response will appear immediately.
 
 ## **Troubleshooting:**
 
